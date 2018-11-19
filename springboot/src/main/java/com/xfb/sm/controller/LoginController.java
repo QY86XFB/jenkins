@@ -29,6 +29,7 @@ public class LoginController {
 
         if ("admin".equals(map.get("username")) && "admin".equals(map.get("pass"))) {
             try {
+                System.out.println("1111111111111111");
                 HttpSession session = request.getSession();
                 session.setAttribute("username", map.get("username"));
                 session.setAttribute("pass", map.get("pass"));
