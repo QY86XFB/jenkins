@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../jquery.min.js"></script>
+</head>
+<script>
+    $(function () {
+        $.ajax({
+            url : "/sb/emp/list",
+            type : "POST",
+            dataType : "json",
+            success : function(data) {
+                if(data!=''){
+                    var str="";
+                    for (var i=0;i<data.length;i++){
+                        str+="<tr>" +
+                            "<td>"+data[i].empNo+"</td><td>"+data[i].ename+"</td>" +
+                            "<td>"+data[i].job+"</td><td>"+data[i].mgrName+"</td>" +
+                            "<td>"+data[i].hireDate+"</td><td>"+data[i].salary+"</td>" +
+                            "<td>"+data[i].comm+"</td><td>"+data[i].deptName+"</td>" +
+                            "<td><input type='button'  id='update' value='更新'></input></td>" +
+                            "<td><a href='/sb/emp/delete?empNo="+data[i].empNo+"'>删除</a></td>" +
+                            "</tr>";
+                    }
+                    $("#tby").append(str);
+                    $("#update").click(function () {
+                        alert()
+                    })
+                }
+
+            }
+        });
+
+    })
+
+</script>
+<body>
+    <a href="../static/add.html">添加</a>
+    <div><img src="/sb/emp/show?fileName=s16.jpg"></div>
+    <table border="1">
+        <thead align="center">
+            <tr>
+                <td>编号</td><td>姓名</td><td>工作</td><td>上司</td><td>入职日期</td><td>工资</td><td>奖金</td><td>部门</td><td colspan="2">操作</td>
+            </tr>
+        </thead>
+        <tbody id="tby" align="center"></tbody>
+    </table>
+</body>
+
+</html>

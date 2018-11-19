@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xfb.sm.dao.EmpDao">
+    <select id="getList" resultType="emp">
+        select empno,ename,job,sal as salary,comm,to_char(hiredate,'yyyy-mm-dd') as hireDate,
+        (select ename from emp b where b.empno=a.mgr)  as mgrName,(select dname from dept where deptno=a.deptno) as deptName
+        from emp a
+        <where>
+            <if test="ename!=null and ename!=''">
+                and ename like '%'||#{ename}||'%'
+            </if>
+        </where>
+        order by ${sort} ${order} <!--${}取值，原封不动的取出数据，相当于占位符，可以进行sql注入   #{}防止sql注入-->
+    </select>
+    <insert id="add" parameterType="com.xfb.sm.entity.Emp">
+        insert into emp values(#{empNo},#{ename},#{job},#{mgr},sysdate,#{salary},#{comm},#{deptNo})
+    </insert>
+    <delete id="delete">
+        delete from emp where empNo=#{empNo}
+    </delete>
+    <select id="getById" resultType="emp">
+        select empno,ename,job,sal as salary,comm,to_char(hiredate,'yyyy-mm-dd') as hireDate,
+        (select ename from emp b where b.empno=a.mgr)  as mgrName,(select dname from dept where deptno=a.deptno) as deptName
+        from emp a where empNo=#{empNo}
+    </select>
+
+    <select id="getProListBydeptNo" parameterType="map" statementType="CALLABLE">
+        call pro_query_emp_bydeptno(#{deptNo,jdbcType=INTEGER,mode=IN},#{csrEmp,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=empResult})
+   </select>
+    <!--结果映射-->
+    <resultMap id="empResult" type="emp">
+        <id column="empno" property="empNo"></id>
+        <result column="ename" property="ename"></result>
+        <result column="job" property="job"></result>
+        <result column="sal" property="salary"></result>
+        <result column="hiredate" property="hireDate"></result>
+        <result column="comm" property="comm"></result>
+    </resultMap>
+</mapper>

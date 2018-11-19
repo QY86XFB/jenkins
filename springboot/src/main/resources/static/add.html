@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery.min.js"></script>
+</head>
+<script>
+    function insert() {
+        var str = {"empNo":$("#empNo").val(),"ename":$("#ename").val(),"job":$("#job").val(),
+            "mgr":$("#mgr").val(),"hireDate":$("#hireDate").val(),"sal":$("#sal").val(),
+            "comm":$("#comm").val(),"deptNo":$("#deptNo").val()};
+        $.ajax({
+            url : "/sb/emp/add",
+            type : "POST",
+            contentType: "application/json",
+            dataType : "json",
+            data : JSON.stringify(str),
+            success : function(data) {
+                if (data != null && data != '') {
+                    window.location.href="/sb/empList.html"
+                }
+            }
+        })
+    }
+</script>
+<body>
+
+        编号:<input type="text" id="empNo" name="empNo"><br>
+        姓名:<input type="text" id="ename" name="ename"><br>
+        工作:<input type="text" id="job" name="job"><br>
+        上司:<input type="text" id="mgr" name="mgr"><br>
+        工资:<input type="text" id="salary" name="salary"><br>
+        奖金:<input type="text" id="comm" name="comm"><br>
+        部门:<input type="text" id="deptNo" name="deptNo"><br>
+        <input type="button" onclick="insert()" value="添加">
+</body>
+
+</html>

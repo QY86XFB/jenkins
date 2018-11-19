@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新</title>
+    <script src="jquery.min.js"></script>
+</head>
+<script>
+    $(function () {
+        $.ajax({
+            url : "/sb/emp/getById",
+            type : "POST",
+            dataType : "json",
+            success : function(data) {
+                if(data!=''){
+                    var str="";
+                    for (var i=0;i<data.length;i++){
+                        str+="<tr>" +
+                            "<td>"+data[i].empNo+"</td><td>"+data[i].ename+"</td>" +
+                            "<td>"+data[i].job+"</td><td>"+data[i].mgrName+"</td>" +
+                            "<td>"+data[i].hireDate+"</td><td>"+data[i].salary+"</td>" +
+                            "<td>"+data[i].comm+"</td><td>"+data[i].deptName+"</td>" +
+                            "</tr>";
+                    }
+                    $("#tby").append(str);
+                }
+            }
+        });
+    })
+
+</script>
+<body>
+<table border="1">
+    <thead align="center">
+    <tr>
+        <td>编号</td><td>姓名</td><td>工作</td><td>上司</td><td>入职日期</td><td>工资</td><td>奖金</td><td>部门</td><td colspan="2">操作</td>
+    </tr>
+    </thead>
+    <tbody id="tby" align="center"></tbody>
+</table>
+    <input type="button" onclick="insert()" value="添加">
+</body>
+</html>
